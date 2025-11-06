@@ -7,6 +7,7 @@ import numpy as np
 from typing import List, Dict, Any
 from datetime import datetime, timedelta
 import random
+from sqlalchemy import create_engine, text
 
 class DataLoaderService:
     
@@ -22,14 +23,74 @@ class DataLoaderService:
     @staticmethod
     def connect_database(db_type: str, connection_string: str, table_name: str) -> pd.DataFrame:
         """Connect to database and fetch data"""
-        # Simulated database connection
-        # In production, use actual database connectors
-        print(f"Connecting to {db_type} database...")
-        print(f"Connection: {connection_string}")
-        print(f"Table: {table_name}")
+        try:
+            # Create SQLAlchemy engine
+            engine = create_engine(connection_string)
+            
+            # Test connection
+            with engine.connect() as conn:
+                # For MongoDB, use different approach
+                if db_type == 'mongodb':
+                    # MongoDB requires pymongo, not SQLAlchemy
+                    from pymongo import MongoClient
+                    
+                    # Parse connection string
+                    client = MongoClient(connection_string)
+                    
+                    # Get database name from connection string
+                    db_name = connection_string.split('/')[-1].split('?')[0]
+                    db = client[db_name]
+                    
+                    # Get collection
+                    collection = db[table_name]
+                    
+                    # Fetch data
+                    data = list(collection.find().limit(1000))
+                    
+                    # Convert to DataFrame
+                    if data:
+                        df = pd.DataFrame(data)
+                        # Remove MongoDB _id field
+                        if '_id' in df.columns:
+                            df = df.drop('_id', axis=1)
+                        return df
+                    else:
+                        raise ValueError(f"Collection '{table_name}' is empty or doesn't exist")
+                
+                else:
+                    # For SQL databases
+                    query = f"SELECT * FROM {table_name} LIMIT 1000"
+                    df = pd.read_sql(query, engine)
+                    
+                    if df.empty:
+                        raise ValueError(f"Table '{table_name}' is empty or doesn't exist")
+                    
+                    return df
         
-        # Return sample data for demonstration
-        return DataLoaderService.generate_sample_data("sales", 500)
+        except ImportError as e:
+            if 'pymongo' in str(e):
+                raise ValueError("MongoDB support requires 'pymongo' package. Install with: pip install pymongo")
+            elif 'pymysql' in str(e):
+                raise ValueError("MySQL support requires 'pymysql' package. Install with: pip install pymysql")
+            elif 'psycopg2' in str(e):
+                raise ValueError("PostgreSQL support requires 'psycopg2' package. Install with: pip install psycopg2-binary")
+            else:
+                raise ValueError(f"Missing required package: {str(e)}")
+        
+        except Exception as e:
+            error_msg = str(e).lower()
+            
+            # Provide helpful error messages
+            if 'access denied' in error_msg or 'authentication failed' in error_msg:
+                raise ValueError("Authentication failed. Please check your username and password.")
+            elif 'unknown database' in error_msg or 'database' in error_msg and 'does not exist' in error_msg:
+                raise ValueError(f"Database not found. Please check the database name.")
+            elif 'can\'t connect' in error_msg or 'connection refused' in error_msg:
+                raise ValueError("Cannot connect to database. Please check host and port.")
+            elif 'no such table' in error_msg or 'relation' in error_msg and 'does not exist' in error_msg:
+                raise ValueError(f"Table '{table_name}' does not exist in the database.")
+            else:
+                raise ValueError(f"Database connection error: {str(e)}")
     
     @staticmethod
     def generate_sample_data(data_type: str, size: int = 500) -> pd.DataFrame:
