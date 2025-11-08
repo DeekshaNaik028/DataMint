@@ -20,7 +20,15 @@ function AnomalyDetection() {
   if (!dataLoaded) {
     return (
       <div className="card">
-        <h2>🔍 Anomaly Detection</h2>
+        <div className="card-header">
+          <div className="card-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+          </div>
+          <h2>Anomaly Detection</h2>
+        </div>
         <div className="alert alert-info">
           Load data first to detect anomalies
         </div>
@@ -30,7 +38,15 @@ function AnomalyDetection() {
 
   return (
     <div className="card">
-      <h2>🔍 Anomaly Detection</h2>
+      <div className="card-header">
+        <div className="card-header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+          </svg>
+        </div>
+        <h2>Anomaly Detection</h2>
+      </div>
 
       <div className="form-group">
         <label>Z-Score Threshold</label>
@@ -49,7 +65,13 @@ function AnomalyDetection() {
       </div>
 
       <button className="btn btn-primary" onClick={handleDetect} disabled={loading}>
-        {loading ? 'Detecting...' : '🔍 Detect Anomalies'}
+        <span className="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+          </svg>
+        </span>
+        {loading ? 'Detecting...' : 'Detect Anomalies'}
       </button>
 
       {error && (
@@ -61,8 +83,19 @@ function AnomalyDetection() {
       {anomalies && (
         <>
           <div className="metric-card" style={{ marginTop: '1.5rem', textAlign: 'left' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
-              {anomalies.anomaly_count === 0 ? '✅' : '⚠️'}
+            <div className="metric-icon">
+              {anomalies.anomaly_count === 0 ? (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              ) : (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              )}
             </div>
             <div style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: '0.3rem' }}>
               {anomalies.anomaly_count}
@@ -122,7 +155,7 @@ function AnomalyDetection() {
           )}
 
           <div className="alert alert-info" style={{ marginTop: '1rem' }}>
-            <strong>ℹ️ Method:</strong> Z-score statistical analysis. Values with |Z| &gt; {threshold} 
+            <strong>Method:</strong> Z-score statistical analysis. Values with |Z| &gt; {threshold} 
             are flagged as anomalies. Useful for detecting outliers and data quality issues.
           </div>
         </>

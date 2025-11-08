@@ -24,7 +24,17 @@ function CustomerSegmentation() {
   if (!dataLoaded) {
     return (
       <div className="card">
-        <h2>👥 Customer Segmentation</h2>
+        <div className="card-header">
+          <div className="card-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 00-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 010 7.75"></path>
+            </svg>
+          </div>
+          <h2>Customer Segmentation</h2>
+        </div>
         <div className="alert alert-info">
           Load data first to perform segmentation
         </div>
@@ -58,7 +68,17 @@ function CustomerSegmentation() {
 
   return (
     <div className="card">
-      <h2>👥 Customer Segmentation</h2>
+      <div className="card-header">
+        <div className="card-header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 010 7.75"></path>
+          </svg>
+        </div>
+        <h2>Customer Segmentation</h2>
+      </div>
 
       <div className="form-group">
         <label>Number of Segments</label>
@@ -73,7 +93,14 @@ function CustomerSegmentation() {
       </div>
 
       <button className="btn btn-primary" onClick={handleSegment} disabled={loading}>
-        {loading ? 'Segmenting...' : '🎯 Segment Customers'}
+        <span className="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </span>
+        {loading ? 'Segmenting...' : 'Segment Customers'}
       </button>
 
       {error && (
@@ -122,7 +149,7 @@ function CustomerSegmentation() {
           </div>
 
           <div className="alert alert-info" style={{ marginTop: '1rem' }}>
-            <strong>ℹ️ Algorithm:</strong> {segmentation.algorithm} clustering based on numeric features. 
+            <strong>Algorithm:</strong> {segmentation.algorithm} clustering based on numeric features. 
             Identified {segmentation.labels.length} distinct customer segments.
           </div>
         </>
