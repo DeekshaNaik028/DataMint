@@ -34,8 +34,25 @@ function CorrelationChart() {
   if (!dataLoaded) {
     return (
       <div className="card">
-        <h2>🔗 Correlation Matrix</h2>
+        <div className="card-header">
+          <div className="card-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </div>
+          <h2>Correlation Matrix</h2>
+        </div>
         <div className="alert alert-info">
+          <span className="alert-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </span>
           Load data first to view correlations
         </div>
       </div>
@@ -45,7 +62,17 @@ function CorrelationChart() {
   if (loading || !correlation) {
     return (
       <div className="card">
-        <h2>🔗 Correlation Matrix</h2>
+        <div className="card-header">
+          <div className="card-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </div>
+          <h2>Correlation Matrix</h2>
+        </div>
         <div className="loading">
           <div className="spinner"></div>
         </div>
@@ -56,7 +83,17 @@ function CorrelationChart() {
   if (correlation.error) {
     return (
       <div className="card">
-        <h2>🔗 Correlation Matrix</h2>
+        <div className="card-header">
+          <div className="card-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </div>
+          <h2>Correlation Matrix</h2>
+        </div>
         <div className="alert alert-warning">{correlation.error}</div>
       </div>
     );
@@ -64,7 +101,17 @@ function CorrelationChart() {
 
   return (
     <div className="card">
-      <h2>🔗 Correlation Matrix</h2>
+      <div className="card-header">
+        <div className="card-header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </div>
+        <h2>Correlation Matrix</h2>
+      </div>
 
       {error && (
         <div className="alert alert-error">{error}</div>
